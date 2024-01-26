@@ -59,7 +59,6 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth','role
   Route::get('/chat', [HomeController::class, 'chat'])->name('chat');
 
   Route::get('/dashboard', [AuthController::class, 'userDashboard'])->name('dashboard');
-  Route::get('/account-details', [AuthController::class, 'accountDetails'])->name('account_details');
   
 
   // feedback Routes

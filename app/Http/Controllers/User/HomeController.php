@@ -16,7 +16,7 @@ class HomeController extends Controller
 
   public function index() {
 
-    $feedbacks = Feedback::all();
+    $feedbacks = Feedback::paginate(4);
       
     return view('front.feedback.index', compact('feedbacks'));
   }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{User};
+use App\Models\{User,Feedback};
 use Illuminate\Support\Facades\{DB, Hash, URL, Storage, Validator, Auth};
 
 class AuthController extends Controller
@@ -103,19 +103,16 @@ class AuthController extends Controller
   }
     
   public function userDashboard() {
-    $user_id = auth()->id();
-    $is_dashboard = true;
-    $user_details = User::with(['feedbacks'])->find(Auth::id());
-
-
-      return view('front.user.account_details', compact('user_details'));
-    }
+    
+    $feedbacks = Feedback::where('user_id', Auth::id())->paginate(4);
+     
+    return view('front.user.feedback.index', compact('feedbacks'));
+  }
     
   public function accountDetails() {
-    $is_dashboard = false;
-    $user_details = User::with(['feedbacks'])->find(Auth::id());
-
-    return view('front.user.account_details', compact('user_details'));
+    $feedbacks = Feedback::where('user_id', Auth::id())->paginate(4);
+   
+    return view('front.user.feedback.index', compact('feedbacks'));
   }
   
   public function editPassword() {

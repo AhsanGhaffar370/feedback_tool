@@ -2,6 +2,7 @@
 
 
 # commands to run
+# composer install
 # create .env file
 # create db in phpmyadmin and then give that name in .env file DB_DATABASE variable
 

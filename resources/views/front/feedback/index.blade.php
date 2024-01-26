@@ -90,6 +90,11 @@
                                 @endforelse
                             </tbody>
                         </table>
+                        @if ($feedbacks->hasPages())
+                            <div class="pagination-wrapper">
+                                {{ $feedbacks->links() }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>

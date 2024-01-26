@@ -20,14 +20,14 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-      $feedbacks = Feedback::where('user_id', Auth::id())->get();
+      $feedbacks = Feedback::where('user_id', Auth::id())->paginate(4);
      
       return view('front.user.feedback.index', compact('feedbacks'));
     }
 
     public function list()
     {
-      $feedbacks = Feedback::all();
+      $feedbacks = Feedback::paginate(4);
       
       return view('front.feedback.index', compact('feedbacks'));
     }
@@ -159,7 +159,7 @@ class FeedbackController extends Controller
   
         $feedback = Feedback::where('user_id', Auth::id())->where('id',$id);
 
-        // $feedback->delete();
+        $feedback->delete();
   
         DB::commit();
         
