@@ -9,8 +9,11 @@ use App\Models\{
   Feedback,
   Vote
 };
+use App\Traits\NotificationTrait;
 class VoteController extends Controller
 {
+  use NotificationTrait;
+
     public function store(Request $request, $feedback_id)
     {
       $validator = Validator::make($request->all(), [
@@ -43,6 +46,12 @@ class VoteController extends Controller
         }
         
         DB::commit();
+
+        // send notification
+        $feedback_details = Feedback::find($feedback_id);
+        $notification_msg = Auth::user()->name. (($request->is_like == 1) ? ' likes' : ' dislike') .' your feedback.';
+        $url  = '/feedback/'.$feedback_details->id;
+        $this->notify_user($feedback_details->user_id, $url, $notification_msg);
         
         return redirect()->back()->withSuccess('Vote Posted Successfully!');
       }

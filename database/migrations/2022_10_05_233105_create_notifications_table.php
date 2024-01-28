@@ -17,7 +17,7 @@ class CreateNotificationsTable extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->references('id')->on('users')->onDelete('cascade');
-            $table->string('type')->nullable();
+            $table->string('url')->nullable();
             $table->text('message')->nullable(); 
             $table->date('date')->default(Carbon::now()); 
             $table->time('time')->default(Carbon::now());

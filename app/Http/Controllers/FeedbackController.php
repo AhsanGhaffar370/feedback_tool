@@ -8,11 +8,14 @@ use Illuminate\Support\Facades\{DB, Session, Hash,URL,Storage,Validator,Auth};
 use Carbon\Carbon;
 use App\Models\{
   Feedback,
-  Category
+  Category,
+  Status
 };
+use App\Traits\NotificationTrait;
 
 class FeedbackController extends Controller
 {
+  use NotificationTrait;
     /**
      * Display a listing of the resource.
      *
@@ -27,9 +30,14 @@ class FeedbackController extends Controller
 
     public function list()
     {
+      $view = 'front.feedback.index';
       $feedbacks = Feedback::paginate(4);
+      $statuses = Status::all();
       
-      return view('front.feedback.index', compact('feedbacks'));
+      if(Auth::check() && Auth::user()->hasRole('admin')) 
+        $view = 'back.feedback.index';
+      
+      return view($view, compact('feedbacks', 'statuses'));
     }
 
 
@@ -173,12 +181,18 @@ class FeedbackController extends Controller
     }
 
     
-  public function feedbackUpdateStatus(Request $request, $id)
+  public function updateStatus(Request $request, $id)
   {
       try{
           $feedback=Feedback::find($id);
           $feedback->status_id = $request->status_id;
           $feedback->save();
+          
+          // send notification
+          $feedback_details = Feedback::find($id);
+          $notification_msg = Auth::user()->name. ' update your feedback status.';
+          $url  = '/feedback/'.$feedback_details->id;
+          $this->notify_user($feedback_details->user_id, $url, $notification_msg);
 
           return response()->json(['code' => '200', 'message'=> 'Status update successfully!']);
       }

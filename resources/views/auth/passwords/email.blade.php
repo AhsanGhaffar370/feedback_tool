@@ -1,4 +1,4 @@
-@extends('front_layout.app')
+@extends('front.layout.app')
 
 @section('page_title','| Login')
 

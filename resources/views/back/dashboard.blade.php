@@ -1,4 +1,4 @@
-@extends('back_layout.app')
+@extends('back.layout.app')
 
 @section('page_title','| Dashboard')
 

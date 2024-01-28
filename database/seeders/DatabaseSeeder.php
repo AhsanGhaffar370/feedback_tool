@@ -4,9 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 // use Database\Seeders\UserTableSeeder;
-use Database\Seeders\CategoryTableSeeder;
-use Database\Seeders\StatusTableSeeder;
-use Database\Seeders\FeedbackTableSeeder;
 use Database\Seeders\PermissionsTableSeeder;
 use Database\Seeders\RolesTableSeeder;
 use Database\Seeders\ConnectRelationshipsSeeder;
@@ -28,5 +25,6 @@ class DatabaseSeeder extends Seeder
       $this->call(CreateStatusTableSeeder::class);
       $this->call(UsersTableSeeder::class);
       $this->call(CreateFeedbackTableSeeder::class);
+      $this->call(CreateNotificationTableSeeder::class);
     }
 }

@@ -29,7 +29,7 @@
   </title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
   
-  @include('back_layout.style')
+  @include('back.layout.style')
 
   {{-- Page Styles --}}
   @yield('css')
@@ -40,12 +40,12 @@
     @if(Route::currentRouteName() == 'admin.login' || Route::currentRouteName() == 'register' || Route::currentRouteName() == 'send-email') 
         @yield('content') 
     @else
-      @include('back_layout.sidebar')
+      @include('back.layout.sidebar')
       <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg">
-          @include('back_layout.nav')
+          @include('back.layout.nav')
           <div class="container-fluid py-4">
               @yield('content')
-              @include('back_layout.footer')
+              @include('back.layout.footer')
           </div>
       </main>
       
@@ -61,7 +61,7 @@
   @endif --}}
 
   
-  @include('back_layout.script')
+  @include('back.layout.script')
 
   {{-- Page Scripts --}}
   @yield('js')

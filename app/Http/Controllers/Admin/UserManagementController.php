@@ -12,11 +12,9 @@ use App\Models\{
 class UserManagementController extends Controller
 {
     
-  public function userList() {
+  public function index() {
 
     $users = User::paginate(30);
-
-
     return view('back.user.user_list', compact('users'));
   }
 

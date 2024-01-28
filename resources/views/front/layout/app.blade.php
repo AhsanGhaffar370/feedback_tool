@@ -30,7 +30,7 @@
   </title>
   <meta name="csrf-token" content="{{ csrf_token() }}">
   
-  @include('front_layout.style')
+  @include('front.layout.style')
 
 
 
@@ -42,9 +42,9 @@
 
 <body class="body-wrapper">
 
-  @include('front_layout.nav')
+  @include('front.layout.nav')
   @yield('content')
-  @include('front_layout.footer')
+  @include('front.layout.footer')
 
     
   <!-- preloader area start -->
@@ -58,7 +58,7 @@
 </div>
 <!-- preloader area end -->
   
-  @include('front_layout.script')
+  @include('front.layout.script')
 
   {{-- Page Scripts --}}
   @yield('js')
@@ -94,6 +94,34 @@
       }, false)
     })
 })()
+
+
+
+
+// Enable pusher logging - don't include this in production
+Pusher.logToConsole = true;
+
+
+var pusher=new Pusher("{{env('PUSHER_APP_KEY')}}", {
+ cluster: "{{env('PUSHER_APP_CLUSTER')}}",
+ forceTLS: true
+});
+   
+  @if(Auth()->check())
+    var channel=pusher.subscribe("notification.send");
+    channel.bind("App\\Events\\NewNotification", (data)=>{
+        if(data.user_id == {{Auth()->user()->id }}){
+            $('.head_notification_count').html(data.notification_count);
+        }
+    });
+
+    var channel2=pusher.subscribe("message.send");
+    channel2.bind("App\\Events\\NewMessage", (data)=>{
+        if(data.to_user_id == {{Auth()->user()->id }}){
+            $('.head_message_count').html(data.message_count);
+        }
+    });
+  @endif
 
 
   </script>

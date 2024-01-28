@@ -8,11 +8,14 @@ use Illuminate\Support\Facades\{DB,Session, Hash,URL,Storage,Validator,Auth};
 use Carbon\Carbon;
 use App\Models\{
   User,
-  Feedback
+  Feedback,
+  Notification
 };
+use App\Traits\NotificationTrait;
 
 class HomeController extends Controller
 {
+  use NotificationTrait;
 
   public function index() {
 
@@ -20,5 +23,7 @@ class HomeController extends Controller
       
     return view('front.feedback.index', compact('feedbacks'));
   }
+
+  
 
 }

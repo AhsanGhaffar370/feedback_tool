@@ -21,9 +21,20 @@
     </ul>
     
     @if(Auth::check() && Auth::user()->hasRole('user'))
-    <div class=" my-2 my-lg-0">
+    <div class=" my-2 my-lg-0 row m-0">
+      <a href="{{ route('get_notification') }}" class="icon-button">
+        <i class="fa-solid fa-bell fa-1x"></i>
+        {{-- <span class="noti_style"><i class="fa-solid fa-bell "></i></span> --}}
+        @php($notification_count=App\Models\Notification::where('user_id', auth()->id())->where('seen',0)->count())
+        <span class="icon-button__badge head_notification_count">{{$notification_count}}</span>
+      </a>
 
-      <a class="btn btn-outline-danger my-2 my-sm-0" href="{{ route('logout') }}"
+      <div class="bg-light">
+        <i class="fa-solid fa-user fa-1x"></i>
+        {{Auth::user()->name}}
+      </div>
+
+      <a class="btn btn-outline-danger my-2 my-sm-0 ml-4" href="{{ route('logout') }}"
           onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
           <span class="d-sm-inline ">Logout</span>
@@ -37,9 +48,10 @@
 
     <div class=" my-2 my-lg-0">
 
-    <a href="{{ route('register') }}" class="btn btn-outline-danger my-2 my-sm-0" >Register</a>
-    <a href="{{ route('user.login') }}" class="btn btn-outline-danger my-2 my-sm-0" >Login</a>
+      <a href="{{ route('register') }}" class="btn btn-primary my-2 my-sm-0" >Register</a>
+      <a href="{{ route('login') }}" class="btn btn-success my-2 my-sm-0" >Login</a>
     </div>
+    
     @endif
   </div>
 </nav>

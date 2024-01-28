@@ -40,19 +40,22 @@ class LoginController extends Controller
     //     $this->middleware('guest')->except('logout');
     // }
 
-    public function authenticate(Request $request)
+    public function redirectTo()
     {
- 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-          // if(Auth::user()->status==1){
-          if(Auth::user()->hasRole('admin')) {
-            $this->redirectTo = '/admin/dashboard';
+        if(Auth::user()->hasRole('admin')) {
+          $this->redirectTo = '/admin/feedback';
+          // dd('admin');
+          return $this->redirectTo;
+        }
+        else if(Auth::user()->hasRole('user')) {
+            $this->redirectTo = '/user/feedback';
+            // dd('admin');
             return $this->redirectTo;
-          }
-          else if(Auth::user()->hasRole('user')) {
-              $this->redirectTo = '/user/dashboard';
-              return $this->redirectTo;
-          }
+        }
+        else {
+          $this->redirectTo = '/';
+          // dd('admin');
+          return $this->redirectTo;
         }
     }
 }

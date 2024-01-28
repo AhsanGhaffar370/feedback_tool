@@ -7,10 +7,14 @@ use Illuminate\Support\Facades\{DB, Session, Hash,URL,Storage,Validator,Auth};
 use Carbon\Carbon;
 use App\Models\{
   Feedback,
-  Comment
+  Comment,
+  Notification
 };
+use App\Traits\NotificationTrait;
 class CommentController extends Controller
 {
+  use NotificationTrait;
+
     public function store(Request $request, $feedback_id)
     {
       $validator = Validator::make($request->all(), [
@@ -30,6 +34,12 @@ class CommentController extends Controller
         $comment = Comment::create($input);
 
         DB::commit();
+
+        // send notification
+        $feedback_details = Feedback::find($feedback_id);
+        $notification_msg = Auth::user()->name.' wrote a comment on your feedback.';
+        $url  = '/feedback/'.$feedback_details->id;
+        $this->notify_user($feedback_details->user_id, $url, $notification_msg);
 
         return redirect()->back()->withSuccess('Comment Posted Successfully!');
       }
